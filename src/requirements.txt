@@ -1,0 +1,5 @@
+kurigram
+pytgcrypto
+aiosqlite
+tortoise-orm
+pydantic-settings
