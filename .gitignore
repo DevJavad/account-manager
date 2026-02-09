@@ -1,0 +1,10 @@
+.env
+__pycache__
+*.session
+*.sqlite
+*.db
+*.sqlite3
+test
+test.py
+clear.py
+tree_view.py
