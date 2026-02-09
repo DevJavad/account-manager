@@ -24,8 +24,11 @@ def accounts_list(accounts: list[Account]) -> InlineKeyboardMarkup:
     rows = []
     row = []
 
-    for acc in accounts:
-        row.append(InlineKeyboardButton(f"📱 {acc.phone}", f"acc:{acc.id}"))
+    for account in accounts:
+        row.append(
+            InlineKeyboardButton(
+                f"📱 {account.phone}", callback_data=f"acc:{account.id}")
+        )
 
         if len(row) == 2:
             rows.append(row)
@@ -34,7 +37,7 @@ def accounts_list(accounts: list[Account]) -> InlineKeyboardMarkup:
     if row:
         rows.append(row)
 
-    return rows
+    return InlineKeyboardMarkup(rows)
 
 
 def code_keyboard() -> InlineKeyboardMarkup:
