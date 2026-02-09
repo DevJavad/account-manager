@@ -60,7 +60,7 @@ def code_keyboard() -> InlineKeyboardMarkup:
             InlineKeyboardButton("✅ ارسال", callback_data="num:send")
         ],
         [
-            [InlineKeyboardButton("🔙 بازگشت", "back_to_main")]
+            InlineKeyboardButton("🔙 بازگشت", callback_data="back_to_main")
         ]
     ]
 
