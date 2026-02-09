@@ -9,11 +9,9 @@ from pyrogram.types import CallbackQuery
 logger = logging.getLogger(__name__)
 
 
-@Client.on_callback_query(button("add_account"))
+@Client.on_callback_query(button("add_account") & filters.user(settings.ADMIN))
 async def add_account(client: Client, query: CallbackQuery):
     await State.set(query.from_user.id, "get_number")
-    s = await State.get(query.from_user.id)
-    print(s)
     await query.message.edit_text(
         "**افزودن اکانت تلگرام جدید** 📱\n\n"
         "لطفا شماره تلفن اکانت را با کد کشور وارد کنید:\n"
