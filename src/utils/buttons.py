@@ -68,3 +68,21 @@ def code_keyboard() -> InlineKeyboardMarkup:
     ]
 
     return InlineKeyboardMarkup(buttons)
+
+
+def acc_panel(id: int) -> InlineKeyboardMarkup:
+    buttons = [
+        [
+            InlineKeyboardButton("🔧 پنل مدیریت", f"panel:{id}"),
+            InlineKeyboardButton("🗑 حذف اکانت", f"delete_acc:{id}")
+        ],
+        [
+            InlineKeyboardButton("🔄 به‌روزرسانی اطلاعات", f"refresh_acc:{id}"),
+            InlineKeyboardButton("📤 ارسال پیام", f"send_msg:{id}")
+        ],
+        [
+            InlineKeyboardButton("🔙 بازگشت به لیست", "account_list")
+        ]
+    ]
+
+    return InlineKeyboardMarkup(buttons)
