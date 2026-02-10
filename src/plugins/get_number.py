@@ -1,11 +1,11 @@
 import logging
 from utils.filters import state
-from utils import State, buttons
 from utils.state import UserData
 from core.config import settings
 from pyrogram.types import Message
 from database.models import Account
 from pyrogram import Client, filters
+from utils import State, buttons, get_device
 from pyrogram.errors import (
     PhoneNumberBanned,
     PhoneNumberInvalid,
@@ -39,10 +39,13 @@ async def start(client: Client, message: Message):
     wait_message = await message.reply("🔄 در حال ارسال کد تأیید به تلگرام...")
 
     try:
+        device_model, system_version = get_device()
         tmp_client = Client(
             f"acc_{phone}",
             settings.API_ID,
             settings.API_HASH,
+            device_model=device_model,
+            system_version=system_version,
             in_memory=True
         )
         await tmp_client.connect()
@@ -50,9 +53,12 @@ async def start(client: Client, message: Message):
 
         await State.set(chat_id, "get_code")
         await UserData.set(chat_id, "client", tmp_client)
+        
         await UserData.set(chat_id, "phone", text)
         await UserData.set(chat_id, "api_id", settings.API_ID)
+        await UserData.set(chat_id, "device_model", device_model)
         await UserData.set(chat_id, "api_hash", settings.API_HASH)
+        await UserData.set(chat_id, "system_version", system_version)
         await UserData.set(chat_id, "phone_code_hash", sent_code.phone_code_hash)
 
 

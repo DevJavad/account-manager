@@ -40,6 +40,8 @@ async def get_code(client: Client, query: CallbackQuery):
         phone: str = await UserData.get(user_id, "phone")
         api_id = await UserData.get(user_id, "api_id")
         api_hash = await UserData.get(user_id, "api_hash")
+        device_model = await UserData.get(user_id, "device_model")
+        system_version = await UserData.get(user_id, "system_version")
 
         try:
             await tmp_client.sign_in(phone, phone_code_hash, code)
@@ -59,13 +61,23 @@ async def get_code(client: Client, query: CallbackQuery):
             )
 
         session_string = await tmp_client.export_session_string()
+        me = await tmp_client.get_me()
         await tmp_client.disconnect()
 
         await Account.create(
             phone=phone.replace("+", ""),
             api_id=api_id,
             api_hash=api_hash,
-            session_string=session_string
+            session_string=session_string,
+            device_model=device_model,
+            system_version=system_version,
+            chat_id=me.id,
+            is_premium=me.is_premium,
+            first_name=me.first_name,
+            last_name=me.last_name,
+            full_name=me.full_name,
+            username=me.username,
+            bio=me.bio
         )
 
         await State.delete(user_id)
